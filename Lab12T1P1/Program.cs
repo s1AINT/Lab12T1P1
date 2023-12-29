@@ -10,7 +10,7 @@ class Program
 
         for (int x = 0; x < mod; x++)
         {
-            int ySquared = (int)((Math.Pow(x, 3) + x + 1) % mod);
+            int ySquared = ModPow((int)(Math.Pow(x, 3) + x + 1), 2, mod);
 
             int y = FindSquareRootModulo(ySquared, mod);
 
@@ -25,12 +25,31 @@ class Program
     {
         for (int x = 0; x < p; x++)
         {
-            if ((x * x) % p == a)
+            if (ModPow(x, 2, p) == a)
             {
                 return x;
             }
         }
 
         return -1;
+    }
+
+    static int ModPow(int baseNum, int exponent, int modulus)
+    {
+        int result = 1;
+        baseNum = baseNum % modulus;
+
+        while (exponent > 0)
+        {
+            if (exponent % 2 == 1)
+            {
+                result = (result * baseNum) % modulus;
+            }
+
+            exponent = exponent >> 1;
+            baseNum = (baseNum * baseNum) % modulus;
+        }
+
+        return result;
     }
 }
